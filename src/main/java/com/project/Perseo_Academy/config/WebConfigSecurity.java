@@ -5,6 +5,7 @@ import com.project.Perseo_Academy.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,22 +29,24 @@ public class WebConfigSecurity {
                         csrf.disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("/api/auth").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/all").permitAll()
-                                .requestMatchers("/api/test/user").hasAnyAuthority("SUPER_ADMIN", "USER")
-                                .requestMatchers("/api/test/admin").hasAnyAuthority("ADMIN", "SUPER_ADMIN")
-                                .requestMatchers("/api/courses/get").permitAll()
-                                .requestMatchers("/api/courses/post").hasAuthority("SUPER_ADMIN")
-                                .requestMatchers("/api/courses/put").hasAnyAuthority("SUPER_ADMIN", "ADMIN")
-                                .requestMatchers("/api/courses/delete").hasAuthority("SUPER_ADMIN")
-                                .requestMatchers("/api/experiences/get").permitAll()
-                                .requestMatchers("/api/experiences/post").hasAuthority("USER")
-                                .requestMatchers("/api/experiences/put").hasAuthority("USER")
-                                .requestMatchers("/api/experiences/delete").hasAuthority("USER")
-                                .requestMatchers("/api/my_courses/get").hasAuthority("USER")
-                                .requestMatchers("/api/carts/get").hasAuthority("USER")
-                                .requestMatchers("/api/carts/post").hasAuthority("USER")
-                                .requestMatchers("/api/carts/delete").hasAuthority("USER")
+                                .requestMatchers("/api/test/user").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers("/api/test").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/api/courses").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/courses/{id}").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/courses").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/api/courses/{id}").hasAnyAuthority("MANAGER", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/api/courses/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/api/experiences").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.POST,"/api/experiences").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.PUT,"/api/experiences").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.DELETE,"/api/experiences/**").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.GET,"/api/my_courses").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.GET,"/api/my_courses/{id}").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.GET,"/api/carts").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.POST,"/api/carts").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.DELETE,"/api/carts/**").hasAuthority("USER")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->

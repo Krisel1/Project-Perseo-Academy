@@ -24,25 +24,25 @@ public class CourseController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
+    @PreAuthorize("permitALL()")
     public Optional<Course> getCourseById(@PathVariable Integer id) {
         return courseService.getCourseById(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Course createCourse(@RequestBody Course course){
         return courseService.createCourse(course);
     }
 
     @PutMapping(path = "/{id}")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
     public Course updateCourse(@RequestBody Course course, @PathVariable Integer id) {
         return courseService.updateCourse(course, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteCourse(@PathVariable Integer id) {
         courseService.deleteCourse(id);
     }

@@ -2,9 +2,7 @@ package com.project.Perseo_Academy.services;
 
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IUserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +24,8 @@ public class UserService {
     }
 
     public User updateUser(User user, Integer id){
-        if (iUserRepository.existsById(id)) {
-            user.setId(id);
-            return iUserRepository.save(user);
-        } else {
-            throw new EntityNotFoundException("User not found with ID " + id);
-        }
+        user.setId(id);
+        return iUserRepository.save(user);
     }
 
     public void deleteUser(Integer id) {

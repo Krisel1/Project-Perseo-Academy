@@ -24,26 +24,24 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     private String linkedin;
     private String github;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private ERole role;
-
-
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
@@ -73,22 +71,13 @@ public class User implements UserDetails {
         return true;
     }
 
-    @OneToMany(
-            mappedBy = "user",
+    @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    private List<Cart> carts;
-
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private List<MyCourse> myCourses;
-
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private List<Experience> experiences;
+    @JoinTable(
+            name = "course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses;
 
 }

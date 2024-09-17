@@ -19,26 +19,32 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        AuthResponse response = authService.login(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        AuthResponse response = authService.register(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authService.register(request));
     }
 
-    @PostMapping("/login/linkedin")
-    public ResponseEntity<AuthResponse> loginLinkedin(@RequestBody OAuthLoginRequest request) {
-        AuthResponse response = authService.loginLinkedin(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/login/github")
-    public ResponseEntity<AuthResponse> loginGithub(@RequestBody OAuthLoginRequest request) {
-        AuthResponse response = authService.loginGithub(request);
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/login/linkedin")
+//    public ResponseEntity<AuthResponse> loginLinkedin(@RequestBody OAuthLoginRequest request) {
+//        return ResponseEntity.ok(authService.loginLinkedin(request));
+//    }
+//
+//    @PostMapping("/login/github")
+//    public ResponseEntity<AuthResponse> loginGithub(@RequestBody OAuthLoginRequest request) {
+//        return ResponseEntity.ok(authService.loginGithub(request));
+//    }
+//
+//    @PostMapping("/register/linkedin")
+//    public ResponseEntity<AuthResponse> registerLinkedin(@RequestBody OAuthLoginRequest request) {
+//        return ResponseEntity.ok(authService.registerlinkedin(request));
+//    }
+//
+//    @PostMapping("/register/github")
+//    public ResponseEntity<AuthResponse> registerGithub(@RequestBody OAuthLoginRequest request) {
+//        return ResponseEntity.ok(authService.registerGithub(request));
+//    }
 
 }

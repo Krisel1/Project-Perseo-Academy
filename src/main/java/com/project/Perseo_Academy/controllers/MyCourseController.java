@@ -30,6 +30,7 @@ public class MyCourseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('USER')")
     public MyCourse createMyCourse(@RequestBody MyCourse myCourse) {
         return myCourseService.createMyCourse(myCourse);
     }

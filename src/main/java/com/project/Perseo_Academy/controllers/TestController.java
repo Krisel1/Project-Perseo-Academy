@@ -28,4 +28,10 @@ public class TestController {
         return "Admin Board.";
     }
 
+    @GetMapping("/manager")
+    @PreAuthorize("hasRole('MANAGER')")
+    public String managerAccess() {
+        return "Manager Board.";
+    }
+
 }
