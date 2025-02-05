@@ -2,7 +2,6 @@ package com.project.Perseo_Academy.controllers;
 
 import com.project.Perseo_Academy.models.Course;
 import com.project.Perseo_Academy.services.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +14,11 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class CourseController {
 
-    @Autowired
-    private CourseService courseService;
+    private final CourseService courseService;
+
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Course>> getAllCourses() {

@@ -2,7 +2,6 @@ package com.project.Perseo_Academy.controllers;
 
 import com.project.Perseo_Academy.models.Cart;
 import com.project.Perseo_Academy.services.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,11 +11,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carts")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+
+    public CartController(CartService cartService) { this.cartService = cartService; }
 
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")

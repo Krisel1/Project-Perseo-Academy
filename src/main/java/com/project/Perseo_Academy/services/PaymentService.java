@@ -1,38 +1,33 @@
 package com.project.Perseo_Academy.services;
 
-import com.project.Perseo_Academy.dto.request.PaymentRequest;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
+import com.project.Perseo_Academy.models.Payment;
+import com.project.Perseo_Academy.repositories.IPaymentRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
 
-    @Value("${stripe.secret.key}")
-    private String stripeSecretKey;
-
-    @PostConstruct
-    public void init() {
-        Stripe.apiKey = stripeSecretKey;
+    private final IPaymentRepository iPaymentRepository;
+    public PaymentService(IPaymentRepository iPaymentRepository) {
+        this.iPaymentRepository = iPaymentRepository;
     }
 
-    public String createPayment(PaymentRequest request) throws StripeException {
-        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setAmount(request.getAmount())
-                .setCurrency("usd")
-                .setAutomaticPaymentMethods(
-                        PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
-                                .setEnabled(true)
-                                .build()
-                )
-                .build();
+    public List<Payment> getAllPayments() {
+        return iPaymentRepository.findAll();
+    }
 
-        PaymentIntent intent = PaymentIntent.create(params);
-        return intent.getClientSecret();
+    public Optional<Payment> getPaymentById(Long id) {
+        return iPaymentRepository.findById(id);
+    }
+
+    public Payment createPayment(Payment payment) {
+        return iPaymentRepository.save(payment);
+    }
+
+    public void deletePayment(Long id) {
+        iPaymentRepository.deleteById(id);
     }
 
 

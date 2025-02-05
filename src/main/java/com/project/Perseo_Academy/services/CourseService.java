@@ -3,7 +3,6 @@ package com.project.Perseo_Academy.services;
 import com.project.Perseo_Academy.models.Course;
 import com.project.Perseo_Academy.repositories.ICourseRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,11 @@ import java.util.Optional;
 @Service
 public class CourseService {
 
-    @Autowired
-    ICourseRepository iCourseRepository;
+    private final ICourseRepository iCourseRepository;
+
+    public CourseService(ICourseRepository iCourseRepository) {
+        this.iCourseRepository = iCourseRepository;
+    }
 
     public List<Course> getAllCourses() {
         return iCourseRepository.findAll();

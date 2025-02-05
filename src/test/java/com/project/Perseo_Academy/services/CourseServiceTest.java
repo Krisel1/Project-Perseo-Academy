@@ -26,7 +26,7 @@ class CourseServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        course = new Course();
+        course = new Course(1L, "Java Basics", "Learn Java from scratch", 30);
         course.setId(1L);
         course.setName("Java Basics");
         course.setDescription("Introduction to Java");
