@@ -1,21 +1,26 @@
 package com.project.Perseo_Academy.services;
 
+
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IUserRepository;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    IUserRepository iUserRepository;
+    private final IUserRepository iUserRepository;
 
-    public List<User> getAllUser() {
-        return iUserRepository.findAll();
+    public UserService(IUserRepository iUserRepository) {
+        this.iUserRepository = iUserRepository;
     }
 
-    public Optional<User> getUserById(Integer id) {
+    public ArrayList<User> getAllUsers() {
+        return (ArrayList<User>) iUserRepository.findAll();
+    }
+
+    public Optional<User> getUserById(Long id) {
         return iUserRepository.findById(id);
     }
 
@@ -23,12 +28,17 @@ public class UserService {
         return iUserRepository.save(newUser);
     }
 
-    public User updateUser(User user, Integer id){
-        user.setId(id);
-        return iUserRepository.save(user);
+    public void updateUser(User user) {
+        iUserRepository.save(user);
     }
 
-    public void deleteUser(Integer id) {
-        iUserRepository.deleteById(id);
+    public String deleteUser(Long id) {
+        try {
+            iUserRepository.deleteById(id);
+            return "User has been deleted";
+        } catch (Exception error) {
+            return "User not found";
+
+        }
     }
 }

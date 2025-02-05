@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import java.util.Optional;
 
 class CourseServiceTest {
 
@@ -26,7 +27,7 @@ class CourseServiceTest {
         MockitoAnnotations.openMocks(this);
 
         course = new Course();
-        course.setId(1);
+        course.setId(1L);
         course.setName("Java Basics");
         course.setDescription("Introduction to Java");
         course.setPrice(99.99);
@@ -50,9 +51,10 @@ class CourseServiceTest {
 
     @Test
     void test_update_Course() {
+        when(iCourseRepository.findById(2L)).thenReturn(Optional.of(course));
         when(iCourseRepository.save(any(Course.class))).thenReturn(course);
 
-        Course result = courseService.updateCourse(course, 2);
+        Course result = courseService.updateCourse(course, 2L);
 
         assertNotNull(result);
         assertEquals(1, result.getId());

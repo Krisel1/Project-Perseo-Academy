@@ -3,9 +3,10 @@ package com.project.Perseo_Academy.controllers;
 import com.project.Perseo_Academy.models.Course;
 import com.project.Perseo_Academy.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,32 +19,34 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    @PreAuthorize("permitALL()")
-    public List<Course> getAllCourse() {
-        return courseService.getAllCourse();
+    public ResponseEntity<List<Course>> getAllCourses() {
+        List<Course> courses = courseService.getAllCourses();
+        return ResponseEntity.ok(courses);
     }
 
-    @GetMapping(path = "/{id}")
-    @PreAuthorize("permitALL()")
-    public Optional<Course> getCourseById(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public Optional<Course> getCourseById(@PathVariable Long id) {
         return courseService.getCourseById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Course createCourse(@RequestBody Course course){
-        return courseService.createCourse(course);
+    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+        Course createdCourse = courseService.createCourse(course);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN')")
-    public Course updateCourse(@RequestBody Course course, @PathVariable Integer id) {
-        return courseService.updateCourse(course, id);
+    public ResponseEntity<?> updateCourse(@RequestBody Course course, @PathVariable Long id) {
+        Course updatedCourse = courseService.updateCourse(course, id);
+        return ResponseEntity.ok(updatedCourse);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteCourse(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
+        return ResponseEntity.noContent().build();
     }
 }

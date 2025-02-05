@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B59703373367639792";
@@ -25,6 +24,7 @@ public class JwtService {
         return getToken(new HashMap<>(),user);
     }
 
+    @SuppressWarnings("deprecation")
     public String getToken(Map<String, Object> claims, UserDetails user){
 
         return Jwts
@@ -52,6 +52,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    @SuppressWarnings("deprecation")
     private Claims getAllClaims(String token) {
         return Jwts
                 .parser()

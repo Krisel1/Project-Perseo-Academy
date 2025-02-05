@@ -5,37 +5,50 @@ import com.project.Perseo_Academy.dto.request.RegisterRequest;
 import com.project.Perseo_Academy.dto.response.AuthResponse;
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IUserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private final JwtService jwtService;
     private final IUserRepository iUserRepository;
     private final PasswordEncoder passwordEncoder;
-    private  final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
+    public AuthService(JwtService jwtService, IUserRepository iUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.jwtService = jwtService;
+        this.iUserRepository = iUserRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
 
     public AuthResponse login(LoginRequest login) {
+        UserDetails userDetails = iUserRepository.findByUsername(login.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 
-        UserDetails users = iUserRepository.findByUsername(login.getUsername()).orElseThrow();
+        String token = jwtService.getTokenService(userDetails);
 
-        String token = jwtService.getTokenService(users);
-
-        return AuthResponse.builder().token(token).build();
+        return new AuthResponse.Builder()
+                .token(token)
+                .role(((User) userDetails).getRole())
+                .build();
     }
 
     public AuthResponse register(RegisterRequest register) {
+        if (iUserRepository.findByUsername(register.getUsername()).isPresent()) {
+            throw new RuntimeException("User doesn't exist");
+        }
+
         User user =
-                User.builder()
+                new User.Builder()
                         .username(register.getUsername())
                         .email(register.getEmail())
                         .password(passwordEncoder.encode(register.getPassword()))
@@ -44,8 +57,8 @@ public class AuthService {
 
         iUserRepository.save(user);
 
-        return AuthResponse.builder()
-                .token(jwtService.getTokenService(user))
+        return new AuthResponse.Builder()
+                .token(jwtService.getTokenService((UserDetails) user))
                 .role(register.getRole())
                 .build();
     }

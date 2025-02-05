@@ -15,11 +15,11 @@ public class CourseService {
     @Autowired
     ICourseRepository iCourseRepository;
 
-    public List<Course> getAllCourse() {
+    public List<Course> getAllCourses() {
         return iCourseRepository.findAll();
     }
 
-    public Optional<Course> getCourseById(Integer id) {
+    public Optional<Course> getCourseById(Long id) {
         return iCourseRepository.findById(id);
     }
 
@@ -27,16 +27,18 @@ public class CourseService {
         return iCourseRepository.save(Course);
     }
 
-    public Course updateCourse(Course course, Integer id) {
-        if (iCourseRepository.existsById(id)) {
-            course.setId(id);
-            return iCourseRepository.save(course);
-        } else {
-            throw new EntityNotFoundException("Course not found with ID " + id);
-        }
+    public Course updateCourse(Course updatedCourse, Long id) {
+        Course existingCourse = iCourseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found with ID " + id));
+
+        existingCourse.setName(updatedCourse.getName());
+        existingCourse.setDescription(updatedCourse.getDescription());
+        existingCourse.setPrice(updatedCourse.getPrice());
+
+        return iCourseRepository.save(existingCourse);
     }
 
-    public void deleteCourse(Integer id) {
+    public void deleteCourse(Long id) {
         iCourseRepository.deleteById(id);
     }
 }

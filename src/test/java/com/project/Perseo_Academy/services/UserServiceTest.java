@@ -1,77 +1,94 @@
 package com.project.Perseo_Academy.services;
 
-import com.project.Perseo_Academy.models.ERole;
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
+import static com.project.Perseo_Academy.models.ERole.USER;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
-    @Mock
+    private UserService userService;
     private IUserRepository iUserRepository;
 
-    @InjectMocks
-    private UserService userService;
-
-    private User user;
-
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        user = new User();
-        user.setId(1);
-        user.setUsername("Ana");
-        user.setPassword("1234");
-        user.setRole(ERole.ADMIN);
+    public void setUp() {
+        iUserRepository = mock(IUserRepository.class);
+        userService = new UserService(iUserRepository);
     }
 
     @Test
-    void test_Create_User() {
-        when(iUserRepository.save(any(User.class))).thenReturn(user);
+    public void test_Get_All_Users() {
+        List<User> mockProjects = new ArrayList<>();
+        mockProjects.add(new User(1L, USER, "password1","user1@example.com", "Sofi"));
+        mockProjects.add(new User(2L, USER, "password2","user2@example.com", "Mari"));
+        when(iUserRepository.findAll()).thenReturn(mockProjects);
 
-        User user1 = userService.createUser(user);
-
-        assertNotNull(user1);
-        assertEquals("Ana", user1.getUsername());
-        assertEquals("1234", user1.getPassword());
-        assertEquals(ERole.ADMIN, user1.getRole());
-
-
-        verify(iUserRepository, times(1)).save(any(User.class));
-    }
-
-    @Test
-    void deleteUser() {
-        when(iUserRepository.findById(2)).thenReturn(Optional.of(user));
-
-        userService.deleteUser(2);
-
-        verify(iUserRepository, times(1)).deleteById(2);
-    }
-    @Test
-    void test_update_user() {
-        when(iUserRepository.save(any(User.class))).thenReturn(user);
-
-        User result = userService.updateUser(user, 2);
+        ArrayList<User> result = userService.getAllUsers();
 
         assertNotNull(result);
-        assertEquals(2, result.getId());
-        assertEquals("Ana", result.getUsername());
-        assertEquals("1234", result.getPassword());
-        assertEquals(ERole.ADMIN, result.getRole());
+        assertEquals(2, result.size());
+        assertEquals("Sofi", result.get(0).getUsername());
+        assertEquals("Mari", result.get(1).getUsername());
 
-        verify(iUserRepository, times(1)).save(any(User.class));
+        verify(iUserRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void test_Get_User_By_Id() {
+        User mockProject = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        Long userId = 1L;
+        when(iUserRepository.findById(userId)).thenReturn(Optional.of(mockProject));
+        Optional<User> result = userService.getUserById(userId);
+
+        assertNotNull(result);
+        assertEquals("Sofi", result.get().getUsername());
+        verify(iUserRepository, times(1)).findById(userId);
+    }
+
+
+    @Test
+    public void test_Create_User() {
+        User newUser = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        when(iUserRepository.save(newUser)).thenReturn(newUser);
+        User result = userService.createUser(newUser);
+
+        assertNotNull(result);
+        assertEquals("Sofi", result.getUsername());
+        verify(iUserRepository, times(1)).save(newUser);
+    }
+
+
+    @Test
+    public void test_Update_User() {
+        User user = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        userService.updateUser(user);
+
+        verify(iUserRepository, times(1)).save(user);
+    }
+
+    @Test
+    public void test_Delete_User_Success() {
+        Long userId = 1L;
+        String result = userService.deleteUser(userId);
+
+        verify(iUserRepository, times(1)).deleteById(userId);
+        assertEquals("User has been deleted", result);
+    }
+
+    @Test
+    public void test_Delete_if_Users_Not_Found() {
+        Long userId = 1L;
+        doThrow(new RuntimeException("User not found")).when(iUserRepository).deleteById(userId);
+        String result = userService.deleteUser(userId);
+
+        verify(iUserRepository, times(1)).deleteById(userId);
+        assertEquals("User not found", result);
     }
 
 }
