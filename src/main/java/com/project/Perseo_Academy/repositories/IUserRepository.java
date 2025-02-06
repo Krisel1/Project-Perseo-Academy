@@ -1,4 +1,12 @@
 package com.project.Perseo_Academy.repositories;
 
-public interface IUserRepository {
+import com.project.Perseo_Academy.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+@Repository
+public interface IUserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+
 }
