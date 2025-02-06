@@ -34,6 +34,8 @@ public class Course {
     @ManyToMany(mappedBy = "purchasedCourses")
     private Set<User> users = new HashSet<>();
 
-    public Course(long l, String javaBasics, String learnJavaFromScratch, double price) {}
+    public Course(Long l, String javaBasics, String learnJavaFromScratch, double price) {}
+
+
 
 }

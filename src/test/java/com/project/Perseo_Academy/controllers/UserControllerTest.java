@@ -39,27 +39,26 @@ class UserControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
-        user1 = new User(1L, USER, "password1", "user1@example.com", "Fran");
-        user2 = new User(2L, USER, "password2", "user2@example.com", "Jacky");
+        user1 = new User(1L, USER, "password1", "user1@example.com", "Mary");
+        user2 = new User(2L, USER, "password2", "user2@example.com", "Sofi");
     }
 
 
     @Test
     void test_Create_User() throws Exception {
-        User user = new User(1L, USER, "password1", "user1@example.com", "Fran");
+        User user = new User(1L, USER, "password1", "user1@example.com", "Mary");
         user.setId(1L);
 
         when(userService.createUser(any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"ERole\":\"USER\",\"password\":\"password1\",\"email\":\"user1@example.com\",\"username\":\"Fran\"}"))
+                        .content("{\"id\":1,\"ERole\":\"USER\",\"password\":\"password1\",\"email\":\"user1@example.com\",\"username\":\"Mary\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
 
         verify(userService, times(1)).createUser(any(User.class));
     }
-
 
     @Test
     void Test_Get_All_User() throws Exception {
@@ -90,7 +89,7 @@ class UserControllerTest {
     @Test
     public void test_Update_User() {
         Long id = 1L;
-        User user = user1 = new User(1L, USER, "password1", "user1@example.com", "Fran");
+        User user = user1 = new User(1L, USER, "password1", "user1@example.com", "Vicky");
         user.setId(id);
 
         userService.updateUser(user);

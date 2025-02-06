@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import static com.project.Perseo_Academy.models.ERole.USER;
+
+import static com.project.Perseo_Academy.models.ERole.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -63,6 +64,27 @@ class UserServiceTest {
         verify(iUserRepository, times(1)).save(newUser);
     }
 
+    @Test
+    public void test_Create_Manager() {
+        User newUser = new User(1L, MANAGER, "password1","user1@example.com", "Lucia");
+        when(iUserRepository.save(newUser)).thenReturn(newUser);
+        User result = userService.createUser(newUser);
+
+        assertNotNull(result);
+        assertEquals("Lucia", result.getUsername());
+        verify(iUserRepository, times(1)).save(newUser);
+    }
+
+    @Test
+    public void test_Create_Admin() {
+        User newUser = new User(1L, ADMIN, "password1","user1@example.com", "Eugenia");
+        when(iUserRepository.save(newUser)).thenReturn(newUser);
+        User result = userService.createUser(newUser);
+
+        assertNotNull(result);
+        assertEquals("Eugenia", result.getUsername());
+        verify(iUserRepository, times(1)).save(newUser);
+    }
 
     @Test
     public void test_Update_User() {
