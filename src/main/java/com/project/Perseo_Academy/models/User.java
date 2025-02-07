@@ -30,6 +30,7 @@ public class User implements UserDetails {
 
     private String linkedin;
     private String github;
+    @Column
     private String experience;
 
     @Enumerated(EnumType.STRING)
@@ -46,12 +47,13 @@ public class User implements UserDetails {
     )
     private Set<Course> purchasedCourses = new HashSet<>();
 
-    public User(Long id, ERole role, String password, String email, String username) {
+    public User(Long id, String username, String email, String password, ERole role) {
         this.id = id;
-        this.role = role;
-        this.password = password;
-        this.email = email;
         this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+
     }
 
     public User() {
@@ -117,7 +119,7 @@ public class User implements UserDetails {
         }
 
         public User build() {
-            return new User(id, role, password, email, username);
+            return new User(id, username, email, password, role);
 
         }
     }

@@ -4,6 +4,8 @@ import com.project.Perseo_Academy.dto.request.LoginRequest;
 import com.project.Perseo_Academy.dto.request.RegisterRequest;
 import com.project.Perseo_Academy.dto.response.AuthResponse;
 import static com.project.Perseo_Academy.models.ERole.USER;
+
+import com.project.Perseo_Academy.models.ERole;
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IUserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -120,7 +122,7 @@ public class AuthServiceTest {
 
         RegisterRequest registerRequest = new RegisterRequest(username, email, password, USER);
 
-        when(iUserRepository.findByUsername(username)).thenReturn(Optional.of(new User(1L, USER, "password1", "user1@example.com", "Krisel")));
+        when(iUserRepository.findByUsername(username)).thenReturn(Optional.of(new User(1L, "valen", "user1@example.com", "password1", USER)));
 
         assertThrows(RuntimeException.class, () -> authService.register(registerRequest));
 

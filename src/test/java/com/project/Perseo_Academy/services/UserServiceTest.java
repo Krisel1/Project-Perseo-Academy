@@ -26,8 +26,8 @@ class UserServiceTest {
     @Test
     public void test_Get_All_Users() {
         List<User> mockProjects = new ArrayList<>();
-        mockProjects.add(new User(1L, USER, "password1","user1@example.com", "Sofi"));
-        mockProjects.add(new User(2L, USER, "password2","user2@example.com", "Mari"));
+        mockProjects.add(new User(1L, "Sofi", "user1@example.com","password1", USER));
+        mockProjects.add(new User(2L, "Mari", "user2@example.com","password2", USER));
         when(iUserRepository.findAll()).thenReturn(mockProjects);
 
         ArrayList<User> result = userService.getAllUsers();
@@ -42,7 +42,7 @@ class UserServiceTest {
 
     @Test
     public void test_Get_User_By_Id() {
-        User mockProject = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        User mockProject = new User(1L, "Sofi", "user1@example.com","password1", USER);
         Long userId = 1L;
         when(iUserRepository.findById(userId)).thenReturn(Optional.of(mockProject));
         Optional<User> result = userService.getUserById(userId);
@@ -55,7 +55,7 @@ class UserServiceTest {
 
     @Test
     public void test_Create_User() {
-        User newUser = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        User newUser = new User(1L, "Sofi", "user1@example.com","password1", USER);
         when(iUserRepository.save(newUser)).thenReturn(newUser);
         User result = userService.createUser(newUser);
 
@@ -66,7 +66,7 @@ class UserServiceTest {
 
     @Test
     public void test_Create_Manager() {
-        User newUser = new User(1L, MANAGER, "password1","user1@example.com", "Lucia");
+        User newUser = new User(1L, "Lucia", "user1@example.com","password1", MANAGER);
         when(iUserRepository.save(newUser)).thenReturn(newUser);
         User result = userService.createUser(newUser);
 
@@ -77,7 +77,7 @@ class UserServiceTest {
 
     @Test
     public void test_Create_Admin() {
-        User newUser = new User(1L, ADMIN, "password1","user1@example.com", "Eugenia");
+        User newUser = new User(1L, "Eugenia", "user1@example.com","password1", ADMIN);
         when(iUserRepository.save(newUser)).thenReturn(newUser);
         User result = userService.createUser(newUser);
 
@@ -88,7 +88,7 @@ class UserServiceTest {
 
     @Test
     public void test_Update_User() {
-        User user = new User(1L, USER, "password1","user1@example.com", "Sofi");
+        User user = new User(1L, "Sofi", "user1@example.com","password1", USER);
         userService.updateUser(user);
 
         verify(iUserRepository, times(1)).save(user);

@@ -1,63 +1,184 @@
 # Perseo Academy
 
-## Description
+# 📚 User Course System
 
-**Perseo Academy** is an educational management application built with Spring Boot and Java. It allows users to register, log in, manage course purchases, track professional experiences, and view purchased courses through a RESTful API.
+## 📖 Description
 
-## Features
+**Perseo Academy** is an educational management application built with Spring Boot and Java. It allows users to register, log in, manage course purchases, track professional experiences, and view purchased courses through a RESTFULL API.
 
-### User Management
-- User registration and authentication.
-- User profiles with work experience and purchased courses.
-- Role management: Users and Administrators.
+## 🚀 Features
+- ✅ **User registration and authentication**
+- ✅ **Work experience management**
+- ✅ **Course browsing and purchasing**
+- ✅ **Shopping cart management**
+- ✅ **Payments via Stripe and PayPal**
+- ✅ **Data persistence with MySQL**
+- ✅ **Testing with JUnit and Mockito**
 
-  **API Endpoints:**
-  - `POST /register`: Register a new user.
-  - `POST /login`: Authenticate with email/password or via OAuth.
-  - `POST /login/linkedin` or `POST /login/github`: Log in using LinkedIn or GitHub.
+## 🛠 Technologies Used
+- **Backend:** Java 17, Spring Boot, Spring Data JPA
+- **Spring Security**: Authentication with JWT
+- **Database:** MySQL
+- **Payments:** Stripe, PayPal
+- **Testing:** JUnit 5, Mockito, Postman
+- **Tools:** Docker, Lombok, Swagger
 
-### Course Management
-- Admins can manage and update courses through a control panel.
-- View, create, update, and delete courses.
-- Detailed course pricing and descriptions.
+---
 
-  **API Endpoints:**
-  - `GET /courses`: List all available courses.
-  - `POST /courses` (Super_Admin): Create a new course.
-  - `PUT /courses/{id}` (Admins): Update a course.
-  - `DELETE /courses/{id}` (Super_Admin): Remove a course.
+## 📂 Project Structure
+```
+user-course-system/
+├── src/
+│   ├── main/
+│   │   ├── java/com/example/demo/
+│   │   │   ├── models/        # JPA Entities
+│   │   │   ├── controllers/   # REST Controllers
+│   │   │   ├── services/      # Business Logic Services
+│   │   │   ├── repositories/  # JPA Repositories
+│   ├── test/                  # JUnit and Mockito Tests
+│
+├── pom.xml                     # Maven Dependencies
+├── README.md                    # Documentation
+```
 
-### Work Experience
-- Users can add and manage their work experience, showcasing their professional background.
-- View, add, and update work experience linked to a user.
+---
 
-  **API Endpoints:**
-  - `GET /experience`: (User): List all work experiences.
-  - `POST /experience` (User): Add new work experience.
-  - `PUT /experience/{id}` (User): Update work experience.
-  - `DELETE /experience/{id}` (User): Remove work experience.
+## ⚙️ Setup and Installation
 
-### Purchased Courses
-- Tracks courses purchased by users.
+### 🔹 1. Clone the Repository
+```bash
+git clone https://github.com/Krisel1/Project-Perseo-Academy.git
 
-  **API Endpoints:**
-  - `GET /my_courses`: List all purchased courses.
-  - `GET /my_courses/{id}`: View details of a specific purchase by ID.
+```
 
-### Shopping Cart
-- Add courses to a shopping cart and proceed with purchases.
+### 🔹 2. Configure MySQL
+- Create a database named **db_academy**
+- Set the credentials in `application.properties`:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/db_academy
+spring.datasource.username=root
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+```
 
-  **API Endpoints:**
-  - `POST /cart/add/{courseId}`: Add a course to the cart.
-  - `GET /cart`: View cart content.
-  - `POST /cart`: Complete the purchase.
+### 🔹 3. Run the Application
+```bash
+mvn spring-boot:run
+```
+---
 
-## Technologies
+## 📌 API Endpoints
+### 📍 Users
+| Method | Endpoint             | Description         |
+|--------|----------------------|---------------------|
+| GET    | `/api/users`         | Get all users       |
+| POST   | `/api/auth/register` | Register a new user |
+| POST   | `/api/auth/login`    | Authenticate user   |
+| POST   | `/api/users`         | Create a new user   |
+| DELETE | `/api/users/{id}`    | Delete a user  |
 
-- **Spring Boot**: Backend development and RESTful API creation.
-- **Spring Security**: Authentication with JWT and OAuth (LinkedIn/GitHub).
-- **OAuth2**: Social login integration with LinkedIn and GitHub.
-- **JWT (JSON Web Tokens)**: Authentication and session handling.
-- **MySQL**: Relational database management.
-- **Postman**: API testing and automation.
+### 📍 Courses
+| Method | Endpoint            | Description                 |
+|--------|--------------------|-----------------------------|
+| GET    | `/api/courses`     | Get all courses             |
+| POST   | `/api/courses`     | Create a new course         |
+
+### 📍 Cart
+| Method | Endpoint          | Description                   |
+|--------|-------------------|------------------------------|
+| GET    | `/api/carts`      | View cart contents           |
+| POST   | `/api/carts`      | Add a course to the cart     |
+| DELETE | `/api/carts/{id}` | Remove a course from the cart |
+
+
+---
+
+## 🔥 API Requests with Postman
+
+### 1️⃣ Register a User
+- **Endpoint:** `POST /api/auth/register`
+- **Request Body:**
+```json
+{
+  "username": "krisel",
+  "email": "hola@example.com",
+  "password": "password",
+  "role": "ADMIN"
+}
+```
+###  Login a User
+- **Endpoint:** `POST /api/auth/login`
+- **Request Body:**
+```json
+{
+  "username": "krisel",
+  "password": "password"
+}
+```
+### 🛠️ Expected response:
+```json
+{
+  "token": "eyHUYniJTRz......."
+}
+```
+
+### 2️⃣ Add a Course to the Cart
+- **Endpoint:** `POST /api/carts`
+- **Request Body:**
+```json
+{
+  "userId": 1,
+  "courseId": 101
+}
+```
+
+### 3️⃣ Process a Payment
+- **Endpoint:** `POST /api/payments`
+- **Request Body:**
+```json
+{
+  "userId": 1,
+  "paymentMethod": "Stripe",
+  "amount": 99.99
+}
+```
+### 4️⃣ Create Course (ADMIN)
+- **Endpoint:** `POST /api/courses`
+- **Request Body:**
+```json
+{
+"title": "Spring Boot Masterclass",
+"description": "Learn Spring Boot from scratch",
+"price": 49.99
+}
+```
+### 5️⃣ Update Course (ADMIN o MANAGER)
+- **Endpoint:** `PUT /api/courses`
+- **Request Body:**
+```json
+{
+"title": "Updated Course Title",
+"description": "Updated Description",
+"price": 59.99
+}
+```
+
+---
+
+## ✅ Testing
+Run the tests with:
+```bash
+mvn test
+```
+
+---
+
+## 🏗️ Future Enhancements
+- [ ] Add email notification support
+- [ ] Improve UI with a React frontend
+
+---
+
+
+
 

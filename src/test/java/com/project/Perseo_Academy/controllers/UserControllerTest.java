@@ -39,14 +39,14 @@ class UserControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
-        user1 = new User(1L, USER, "password1", "user1@example.com", "Mary");
-        user2 = new User(2L, USER, "password2", "user2@example.com", "Sofi");
+        user1 = new User(1L, "Mary", "password1", "user1@example.com", USER);
+        user2 = new User(2L, "Sofi", "password2", "user2@example.com", USER);
     }
 
 
     @Test
     void test_Create_User() throws Exception {
-        User user = new User(1L, USER, "password1", "user1@example.com", "Mary");
+        User user = new User(1L, "Mary", "password1", "user1@example.com", USER);
         user.setId(1L);
 
         when(userService.createUser(any(User.class))).thenReturn(user);
@@ -89,7 +89,7 @@ class UserControllerTest {
     @Test
     public void test_Update_User() {
         Long id = 1L;
-        User user = user1 = new User(1L, USER, "password1", "user1@example.com", "Vicky");
+        User user = user1 = new User(1L, "Vicky", "password1", "user1@example.com", USER);
         user.setId(id);
 
         userService.updateUser(user);
