@@ -19,9 +19,9 @@
 - **Backend:** Java 17, Spring Boot, Spring Data JPA
 - **Spring Security**: Authentication with JWT
 - **Database:** MySQL
-- **Payments:** Stripe, PayPal
 - **Testing:** JUnit 5, Mockito, Postman
-- **Tools:** Docker, Lombok, Swagger
+- **Tools:** Docker, Lombok
+- **Payments:**
 
 ---
 
@@ -61,10 +61,7 @@ spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-### 🔹 3. Run the Application
-```bash
-mvn spring-boot:run
-```
+
 ---
 
 ## 📌 API Endpoints
@@ -100,7 +97,7 @@ mvn spring-boot:run
 - **Request Body:**
 ```json
 {
-  "username": "krisel",
+  "username": "Hola",
   "email": "hola@example.com",
   "password": "password",
   "role": "ADMIN"
@@ -111,7 +108,7 @@ mvn spring-boot:run
 - **Request Body:**
 ```json
 {
-  "username": "krisel",
+  "username": "Hola",
   "password": "password"
 }
 ```
@@ -138,7 +135,7 @@ mvn spring-boot:run
 ```json
 {
   "userId": 1,
-  "paymentMethod": "Stripe",
+  "paymentMethod": "Paypal",
   "amount": 99.99
 }
 ```
@@ -147,7 +144,7 @@ mvn spring-boot:run
 - **Request Body:**
 ```json
 {
-"title": "Spring Boot Masterclass",
+"name": "Spring Boot Masterclass",
 "description": "Learn Spring Boot from scratch",
 "price": 49.99
 }
