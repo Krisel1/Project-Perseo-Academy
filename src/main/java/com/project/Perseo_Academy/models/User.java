@@ -1,5 +1,6 @@
 package com.project.Perseo_Academy.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,32 +13,37 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Data
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-    @Column(nullable = false, unique = true)
-    private String email;
     @Column(nullable = false)
+    private String username;
+    private String email;
     private String password;
 
+    private String experience;
     private String linkedin;
     private String github;
-    @Column
-    private String experience;
 
     @Enumerated(EnumType.STRING)
     private ERole role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("user-experience")
     private Set<Experience> experiences = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-cart")
+    private Set<Cart> carts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-payment")
+    private Set<Payment> payments = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

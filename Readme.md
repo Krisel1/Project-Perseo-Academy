@@ -27,7 +27,7 @@
 
 ## 📂 Project Structure
 ```
-user-course-system/
+project-perseo-academy/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/example/demo/
