@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "course")
+@Table(name = "courses")
 public class Course {
 
     @Id
@@ -29,15 +29,8 @@ public class Course {
     private double price;
 
     @ManyToMany(mappedBy = "purchasedCourses")
-    @JsonIgnore    // Evita que "users" aparezca en la respuesta JSON
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
-    public Course(Long l, String javaBasics, String learnJavaFromScratch, double price) {}
 
-    public  Course(Long id, String name, String description, Double price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
 }

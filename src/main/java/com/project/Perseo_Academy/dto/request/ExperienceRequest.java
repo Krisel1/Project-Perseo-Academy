@@ -7,7 +7,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ExperienceRequest {
-    private Long id;
     private String company;
     private String position;
     private String description;

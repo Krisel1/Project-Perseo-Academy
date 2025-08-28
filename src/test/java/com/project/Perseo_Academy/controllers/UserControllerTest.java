@@ -39,21 +39,21 @@ class UserControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
-        user1 = new User(1L, "Mary", "password1", "user1@example.com", USER);
-        user2 = new User(2L, "Sofi", "password2", "user2@example.com", USER);
+        user1 = new User(1L, "Mary", "user1@example.com", "password1", USER);
+        user2 = new User(2L, "Sofi", "user2@example.com", "password2", USER);
     }
 
 
     @Test
     void test_Create_User() throws Exception {
-        User user = new User(1L, "Mary", "password1", "user1@example.com", USER);
+        User user = new User(1L, "Mary", "user1@example.com", "password1", USER);
         user.setId(1L);
 
         when(userService.createUser(any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"ERole\":\"USER\",\"password\":\"password1\",\"email\":\"user1@example.com\",\"username\":\"Mary\"}"))
+                        .content("{\"id\":1,\"username\":\"Mary\",\"email\":\"user1@example.com\",\"password\":\"password1\",\"ERole\":\"USER\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
 
@@ -89,7 +89,7 @@ class UserControllerTest {
     @Test
     public void test_Update_User() {
         Long id = 1L;
-        User user = user1 = new User(1L, "Vicky", "password1", "user1@example.com", USER);
+        User user = user1 = new User(1L, "Vicky", "user1@example.com", "password1", USER);
         user.setId(id);
 
         userService.updateUser(user);

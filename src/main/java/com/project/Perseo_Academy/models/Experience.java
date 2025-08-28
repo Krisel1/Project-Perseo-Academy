@@ -38,10 +38,11 @@ public class Experience {
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference("user-experience")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference //("user-experience")
     private User user;
 
     public Experience() {}
 
 }
+

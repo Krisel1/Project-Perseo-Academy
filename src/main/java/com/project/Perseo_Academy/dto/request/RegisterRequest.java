@@ -11,8 +11,6 @@ public class RegisterRequest {
     String password;
     ERole role;
 
-    public RegisterRequest() {
-    }
 
     public RegisterRequest(String username, String email, String password, ERole role) {
         this.username = username;

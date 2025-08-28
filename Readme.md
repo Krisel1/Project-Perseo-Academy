@@ -1,10 +1,25 @@
-# Perseo Academy
+# Perseo Academy 🌟
 
 # 📚 User Course System
 
 ## 📖 Description
 
 **Perseo Academy** is an educational management application built with Spring Boot and Java. It allows users to register, log in, manage course purchases, track professional experiences, and view purchased courses through a RESTFULL API.
+
+## 🧩 Diagrama de Flujo del Proyecto
+
+Este diagrama de flujo fue creado en Miro y muestra la estructura lógica del proyecto, incluyendo etapas clave como la planificación, desarrollo, pruebas y entrega. Proporciona una visión general del proceso para facilitar la comprensión.
+
+🔗 [Ver diagrama en Miro](https://miro.com/app/board/uXjVKgBQ0SI=/)
+
+
+## 🚀 Project Objectives
+
+1. **Reinforce API creation concepts.**
+2. **Apply relational database relationships.**
+3. **Develop an authentication and authorization system using Spring Security and JWT.**
+
+## 🛠️ Functional Requirements
 
 ## 🚀 Features
 - ✅ **User registration and authentication**
@@ -15,7 +30,7 @@
 - ✅ **Data persistence with MySQL**
 - ✅ **Testing with JUnit and Mockito**
 
-## 🛠 Technologies Used
+## 🛠 Technical Requirements
 - **Backend:** Java 17, Spring Boot, Spring Data JPA
 - **Spring Security**: Authentication with JWT
 - **Database:** MySQL
@@ -61,8 +76,28 @@ spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 ```
 
+**Build and Run the Application:**
 
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+**Deploy with Docker:**
+
+   ```bash
+   docker-compose up --build
+   ```
+   This will build and run the necessary containers, including the backend and the database.
 ---
+
+### Testing
+
+To run the tests, use the following command:
+
+```bash
+mvn test
+```
 
 ## 📌 API Endpoints
 ### 📍 Users

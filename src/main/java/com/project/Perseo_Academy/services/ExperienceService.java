@@ -1,10 +1,10 @@
 package com.project.Perseo_Academy.services;
 
+
 import com.project.Perseo_Academy.models.Experience;
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IExperienceRepository;
 import com.project.Perseo_Academy.repositories.IUserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -66,4 +66,6 @@ public class ExperienceService {
         iExperienceRepository.deleteById(id);
     }
 }
+
+
 

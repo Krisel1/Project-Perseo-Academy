@@ -1,12 +1,13 @@
 package com.project.Perseo_Academy.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cart")
+@Table(name = "carts")
 public class Cart {
 
     @Id
@@ -25,13 +26,22 @@ public class Cart {
     private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference("user-cart")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+//    @ManyToMany
+//    @JoinTable(
+//            name = "cart_courses",
+//            joinColumns = @JoinColumn(name = "cart_id"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id")
+//    )
+//    private List<Course> courses;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+
 }
+
 

@@ -2,7 +2,6 @@ package com.project.Perseo_Academy.controllers;
 
 
 import com.project.Perseo_Academy.dto.request.ExperienceRequest;
-import com.project.Perseo_Academy.models.Course;
 import com.project.Perseo_Academy.models.Experience;
 import com.project.Perseo_Academy.models.User;
 import com.project.Perseo_Academy.repositories.IExperienceRepository;
@@ -12,13 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/experiences")
 @CrossOrigin(origins = "*")
+@RequestMapping("/api/experiences")
 public class ExperienceController {
 
     private final ExperienceService experienceService;
@@ -82,4 +80,5 @@ public class ExperienceController {
         return ResponseEntity.noContent().build();
     }
 }
+
 
